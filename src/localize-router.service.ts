@@ -50,8 +50,16 @@ export class LocalizeRouterService {
       let rootSnapshot: ActivatedRouteSnapshot = this.router.routerState.snapshot.root;
 
       this.parser.translateRoutes(lang).subscribe(() => {
-        let url = this.traverseRouteSnapshot(rootSnapshot);
-
+        let url = '';
+        if (Object.keys(queryParams).length !== 0) {
+          const queryString = Object.keys(queryParams).map(function (key) {
+            return key + '=' + queryParams[key]
+          }).join('&');
+          url = this.traverseRouteSnapshot(rootSnapshot) + '?' + queryString;
+        } else {
+          url = this.traverseRouteSnapshot(rootSnapshot);
+        }
+        
         if (!this.settings.alwaysSetPrefix) {
           let urlSegments = url.split('/');
           const languageSegmentIndex = urlSegments.indexOf(this.parser.currentLang);
