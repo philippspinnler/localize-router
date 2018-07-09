@@ -50,6 +50,7 @@ export class LocalizeRouterService {
       let rootSnapshot: ActivatedRouteSnapshot = this.router.routerState.snapshot.root;
 
       this.parser.translateRoutes(lang).subscribe(() => {
+        const queryParams = rootSnapshot.queryParams;
         let url = '';
         if (Object.keys(queryParams).length !== 0) {
           const queryString = Object.keys(queryParams).map(function (key) {
